@@ -1,9 +1,9 @@
-package com.ufps.conferencias.Service;
+package com.ufps.conferencia.service;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.ufps.conferencias.Entity.Asistente;
+import com.ufps.conferencia.entity.Asistente;
 
 public interface AsistenteService {
 
