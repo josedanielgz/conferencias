@@ -6,6 +6,8 @@ package com.ufps.conferencias.Controller;
 
 import com.ufps.conferencias.Entity.Asistente;
 import com.ufps.conferencias.Repository.AsistenteRepository;
+import com.ufps.conferencias.Service.AsistenteService;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,73 +24,88 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/asistente")
 public class AsistenteController {
 
-    @Autowired
-    AsistenteRepository asistenteRepository;
+//    @Autowired
+//    AsistenteRepository asistenteRepository;
 
-    @GetMapping("/usuarios")
-    public List<Asistente> getClienteAll() {
+	@Autowired
+	AsistenteService asistenteRepository;
 
-        return asistenteRepository.findAll();
-    }
+	@GetMapping("/usuarios")
+	public List<Asistente> getClienteAll() {
 
-    @PostMapping
-    public Asistente postNews(@RequestBody Asistente asistente) {
+		return asistenteRepository.listaDeAsistentes();
+	}
 
-        asistenteRepository.save(asistente);
+	@PostMapping
+	public Asistente postNews(@RequestBody Asistente asistente) {
 
-        return asistente;
+		asistenteRepository.guardar(asistente);
 
-    }
+		return asistente;
 
-    @PutMapping("/{id}")
-    public Asistente putClientebyId(@PathVariable Integer id, @RequestBody Asistente asistente) {
+	}
 
-        Optional<Asistente> asistenteCurrent = asistenteRepository.findById(id);
+	@PutMapping("/{id}")
+	public Asistente putClientebyId(@PathVariable Long id, @RequestBody Asistente asistente) {
 
-        if (asistenteCurrent.isPresent()) {
+		Optional<Asistente> asistenteCurrent = this.asistenteRepository.buscar(id);
 
-            Asistente asistenteReturn = asistenteCurrent.get();
+		if (asistenteCurrent.isPresent()) {
 
-            asistenteReturn.setNombre(asistente.getNombre());
-            asistenteReturn.setApellido(asistente.getApellido());
-            asistenteReturn.setEmail(asistente.getInstitucion());
-            asistenteReturn.setEmail(asistente.getEmail());
-            asistenteReturn.setEmail(asistente.getCiudad());
-            asistenteReturn.setEmail(asistente.getPais());
-            asistenteReturn.setEmail(asistente.getTipo());
-            asistenteReturn.setEmail(asistente.getPassword());
+			Asistente asistenteReturn = asistenteCurrent.get();
 
-            asistenteRepository.save(asistenteReturn);
+			asistenteReturn.setNombre(asistente.getNombre());
+			asistenteReturn.setApellido(asistente.getApellido());
+			asistenteReturn.setEmail(asistente.getInstitucion());
+			asistenteReturn.setEmail(asistente.getEmail());
+			asistenteReturn.setEmail(asistente.getCiudad());
+			asistenteReturn.setEmail(asistente.getPais());
+			asistenteReturn.setEmail(asistente.getTipo());
+			asistenteReturn.setEmail(asistente.getPassword());
 
-            return asistenteReturn;
-        }
+			asistenteRepository.guardar(asistenteReturn);
 
-        return null;
+			return asistenteReturn;
+		}
 
-    }
+		return null;
 
-    @DeleteMapping("/{id}")
-    public Asistente deleteNewsbyId(@PathVariable Integer id) {
+	}
 
-        Optional<Asistente> asistente = asistenteRepository.findById(id);
+	@DeleteMapping("/{id}")
+	public Asistente deleteNewsbyId(@PathVariable Long id) {
 
-        if (asistente.isPresent()) {
+		Optional<Asistente> asistente = asistenteRepository.buscar(id);
 
-            Asistente asistenteReturn = asistente.get();
+		if (asistente.isPresent()) {
 
-            asistenteRepository.deleteById(id);
+			Asistente asistenteReturn = asistente.get();
 
-            return asistenteReturn;
-        }
+			asistenteRepository.eliminar(id);
 
-        return null;
+			return asistenteReturn;
+		}
 
-    }
+		return null;
 
-    /*@GetMapping("cliente/{id}")
-    public Long edadCuentaDelCliente(@PathVariable Integer id) {
-        Optional<Asistente> elCliente = this.clienteServicio.buscar(id);
-        long diasDeCuenta = this.clienteServicio.diasDeRegistro(elCliente.get());
-        return diasDeCuenta;
-    }*/
+	}
+	
+	@GetMapping("/fecha/{id}")
+	public String daysSinceRegistered(@PathVariable Long id) {
+
+		Optional<Asistente> asistente = asistenteRepository.buscar(id);
+
+		if (asistente.isPresent()) {
+			Long dias = this.asistenteRepository.diasDeRegistro(asistente.get());
+			return "";
+		}
+		return null;
+	}
+
+	/*
+	 * @GetMapping("cliente/{id}") public Long edadCuentaDelCliente(@PathVariable
+	 * Integer id) { Optional<Asistente> elCliente =
+	 * this.clienteServicio.buscar(id); long diasDeCuenta =
+	 * this.clienteServicio.diasDeRegistro(elCliente.get()); return diasDeCuenta; }
+	 */
 }
