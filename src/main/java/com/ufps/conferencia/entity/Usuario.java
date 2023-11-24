@@ -17,6 +17,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+
+import java.time.LocalDate;
 import java.util.Collection;
 import lombok.Data;
 
@@ -41,5 +45,83 @@ public class Usuario{
     @ManyToOne
     @JoinColumn(name = "rol_id")
     private Rol roles;
+    
+    @Column(name = "fecha_inscripcion")
+    @Temporal(TemporalType.DATE)
+    private LocalDate fechaInscripcion;
+    
+	public Usuario(Long id, String nombre, String apellido, String email, String password, Rol roles,
+			LocalDate fechaInscripcion) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.email = email;
+		this.password = password;
+		this.roles = roles;
+		this.fechaInscripcion = fechaInscripcion;
+	}
+
+	public Usuario() {
+		super();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Rol getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Rol roles) {
+		this.roles = roles;
+	}
+
+	public LocalDate getFechaInscripcion() {
+		return fechaInscripcion;
+	}
+
+	public void setFechaInscripcion(LocalDate fechaInscripcion) {
+		this.fechaInscripcion = fechaInscripcion;
+	}
+    
+    
 
 }

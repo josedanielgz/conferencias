@@ -7,6 +7,8 @@ package com.ufps.conferencia.controller;
 import com.ufps.conferencia.entity.Asistente;
 import com.ufps.conferencia.repository.AsistenteRepository;
 import com.ufps.conferencia.repository.ChairRepository;
+import com.ufps.conferencia.service.AsistenteService;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,61 +25,145 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/asistente")
 public class AsistenteController {
 
-    @Autowired
-    AsistenteRepository asistenteRepository;
-    
-    public List<Asistente> getAsistenteAll() {
+//    @Autowired
+//    AsistenteRepository asistenteRepository;
+//    
+//    public List<Asistente> getAsistenteAll() {
+//
+//        return asistenteRepository.findAll();
+//    }
+//
+//    @PostMapping
+//    public Asistente postAsistente(@RequestBody Asistente asistente) {
+//
+//        asistenteRepository.save(asistente);
+//
+//        return asistente;
+//
+//    }
+//
+//    @PutMapping("/{id}")
+//    public Asistente putAsistentebyId(@PathVariable Long id, @RequestBody Asistente asistente) {
+//
+//        Optional<Asistente> asistenteCurrent = asistenteRepository.findById(id);
+//
+//        if (asistenteCurrent.isPresent()) {
+//
+//            Asistente asistenteReturn = asistenteCurrent.get();
+//
+//            asistenteReturn.setNombre(asistente.getNombre());
+//            asistenteReturn.setApellido(asistente.getApellido());
+//            asistenteReturn.setEmail(asistente.getEmail());
+//            asistenteReturn.setEmail(asistente.getPassword());
+//
+//            asistenteRepository.save(asistenteReturn);
+//
+//            return asistenteReturn;
+//        }
+//
+//        return null;
+//
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public Asistente deleteAsistentebyId(@PathVariable Long id) {
+//
+//        Optional<Asistente> asistente = asistenteRepository.findById(id);
+//
+//        if (asistente.isPresent()) {
+//
+//            Asistente asistenteReturn = asistente.get();
+//
+//            asistenteRepository.deleteById(id);
+//
+//            return asistenteReturn;
+//        }
+//
+//        return null;
+//
+//    }
 
-        return asistenteRepository.findAll();
-    }
+//  @Autowired
+//  AsistenteRepository asistenteRepository;
 
-    @PostMapping
-    public Asistente postAsistente(@RequestBody Asistente asistente) {
+	@Autowired
+	AsistenteService asistenteRepository;
 
-        asistenteRepository.save(asistente);
+	@GetMapping("/usuarios")
+	public List<Asistente> getClienteAll() {
 
-        return asistente;
+		return asistenteRepository.listaDeAsistentes();
+	}
 
-    }
+	@PostMapping
+	public Asistente postNews(@RequestBody Asistente asistente) {
 
-    @PutMapping("/{id}")
-    public Asistente putAsistentebyId(@PathVariable Long id, @RequestBody Asistente asistente) {
+		asistenteRepository.guardar(asistente);
 
-        Optional<Asistente> asistenteCurrent = asistenteRepository.findById(id);
+		return asistente;
 
-        if (asistenteCurrent.isPresent()) {
+	}
 
-            Asistente asistenteReturn = asistenteCurrent.get();
+	@PutMapping("/{id}")
+	public Asistente putClientebyId(@PathVariable Long id, @RequestBody Asistente asistente) {
 
-            asistenteReturn.setNombre(asistente.getNombre());
-            asistenteReturn.setApellido(asistente.getApellido());
-            asistenteReturn.setEmail(asistente.getEmail());
-            asistenteReturn.setEmail(asistente.getPassword());
+		Optional<Asistente> asistenteCurrent = this.asistenteRepository.buscar(id);
 
-            asistenteRepository.save(asistenteReturn);
+		if (asistenteCurrent.isPresent()) {
 
-            return asistenteReturn;
-        }
+			Asistente asistenteReturn = asistenteCurrent.get();
 
-        return null;
+			asistenteReturn.setNombre(asistente.getNombre());
+			asistenteReturn.setApellido(asistente.getApellido());
+			asistenteReturn.setEmail(asistente.getInstitucion());
+			asistenteReturn.setEmail(asistente.getEmail());
+			asistenteReturn.setEmail(asistente.getCiudad());
+			asistenteReturn.setEmail(asistente.getPais());
+			asistenteReturn.setEmail(asistente.getPassword());
 
-    }
+			asistenteRepository.guardar(asistenteReturn);
 
-    @DeleteMapping("/{id}")
-    public Asistente deleteAsistentebyId(@PathVariable Long id) {
+			return asistenteReturn;
+		}
 
-        Optional<Asistente> asistente = asistenteRepository.findById(id);
+		return null;
 
-        if (asistente.isPresent()) {
+	}
 
-            Asistente asistenteReturn = asistente.get();
+	@DeleteMapping("/{id}")
+	public Asistente deleteNewsbyId(@PathVariable Long id) {
 
-            asistenteRepository.deleteById(id);
+		Optional<Asistente> asistente = asistenteRepository.buscar(id);
 
-            return asistenteReturn;
-        }
+		if (asistente.isPresent()) {
 
-        return null;
+			Asistente asistenteReturn = asistente.get();
 
-    }
+			asistenteRepository.eliminar(id);
+
+			return asistenteReturn;
+		}
+
+		return null;
+
+	}
+
+	@GetMapping("/fecha/{id}")
+	public String daysSinceRegistered(@PathVariable Long id) {
+
+		Optional<Asistente> asistente = asistenteRepository.buscar(id);
+
+		if (asistente.isPresent()) {
+			Long dias = this.asistenteRepository.diasDeRegistro(asistente.get());
+			return "";
+		}
+		return null;
+	}
+
+	/*
+	 * @GetMapping("cliente/{id}") public Long edadCuentaDelCliente(@PathVariable
+	 * Integer id) { Optional<Asistente> elCliente =
+	 * this.clienteServicio.buscar(id); long diasDeCuenta =
+	 * this.clienteServicio.diasDeRegistro(elCliente.get()); return diasDeCuenta; }
+	 */
 }
