@@ -57,13 +57,11 @@
 		<div class="col-md-8">
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary">Solicitudes de
-						registro recientes</h6>
+					<h6 class="m-0 font-weight-bold text-primary">Convocatorias próximas a realizarse</h6>
 				</div>
 				<div class="card-body">
 					<div class="alert alert-info" th:if="${solicitudes.isEmpty()}">
-						<label>No se han reportado solicitudes de registro nuevas
-							recientemente.</label>
+						<label>No se han encontrado convocatorias recientes.</label>
 					</div>
 
 					<div class="table-responsive" th:unless="${solicitudes.isEmpty()}">
@@ -71,9 +69,9 @@
 							cellspacing="0">
 							<thead>
 								<tr>
-									<th>Nombre</th>
-									<th>Email</th>
-									<th>Estado</th>
+									<th>Título</th>
+									<th>Fecha de Apertura</th>
+									<th>Temas</th>
 								</tr>
 							</thead>
 							<tbody th:each="solicitud : ${solicitudes}">
@@ -94,7 +92,8 @@
 		<div class="col-md-4">
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary">Materias</h6>
+					<h6 class="m-0 font-weight-bold text-primary">Trabajos
+						Enviados</h6>
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -102,9 +101,9 @@
 						<table class="table table-bordered" width="100%" cellspacing="0">
 							<thead>
 								<tr>
-									<th>Nombre</th>
-									<th>Créditos</th>
-									<th>Semestre</th>
+									<th>Título</th>
+									<th>Conferencia Asociada</th>
+									<th>Temas</th>
 								</tr>
 
 							</thead>
@@ -182,13 +181,13 @@
 		<div class="col-md-8">
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
-					<h6 class="m-0 font-weight-bold text-primary">
-						Actividades registradas recientemente</h6>
+					<h6 class="m-0 font-weight-bold text-primary">Actividades
+						registradas recientemente</h6>
 				</div>
 				<div class="card-body">
 					<div class="alert alert-info">
-						<label>No se han registrado nuevos instrumentos de evaluación
-							recientemente.</label>
+						<label>No se han registrado nuevos instrumentos de
+							evaluación recientemente.</label>
 					</div>
 				</div>
 			</div>
