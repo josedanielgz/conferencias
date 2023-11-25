@@ -115,11 +115,11 @@ public class AsistenteController {
 
 			asistenteReturn.setNombre(asistente.getNombre());
 			asistenteReturn.setApellido(asistente.getApellido());
-			asistenteReturn.setEmail(asistente.getInstitucion());
+			asistenteReturn.setInstitucion(asistente.getInstitucion())
 			asistenteReturn.setEmail(asistente.getEmail());
-			asistenteReturn.setEmail(asistente.getCiudad());
-			asistenteReturn.setEmail(asistente.getPais());
-			asistenteReturn.setEmail(asistente.getPassword());
+			asistenteReturn.setCiudad(asistente.getCiudad());
+			asistenteReturn.setPais(asistente.getPais());
+			asistenteReturn.setPassword(asistente.getPassword());
 
 			asistenteRepository.guardar(asistenteReturn);
 
@@ -130,6 +130,32 @@ public class AsistenteController {
 
 	}
 
+	@PutMapping("/{id}")
+	public Asistente registrarseEnConvocatoria(@PathVariable Long id, @RequestBody Asistente asistente) {
+
+		Optional<Asistente> asistenteCurrent = this.asistenteRepository.buscar(id);
+
+		if (asistenteCurrent.isPresent()) {
+
+			Asistente asistenteReturn = asistenteCurrent.get();
+
+			asistenteReturn.setNombre(asistente.getNombre());
+			asistenteReturn.setApellido(asistente.getApellido());
+			asistenteReturn.setInstitucion(asistente.getInstitucion())
+			asistenteReturn.setEmail(asistente.getEmail());
+			asistenteReturn.setCiudad(asistente.getCiudad());
+			asistenteReturn.setPais(asistente.getPais());
+			asistenteReturn.setPassword(asistente.getPassword());
+
+			asistenteRepository.guardar(asistenteReturn);
+
+			return asistenteReturn;
+		}
+
+		return null;
+
+	}
+	
 	@DeleteMapping("/{id}")
 	public Asistente deleteNewsbyId(@PathVariable Long id) {
 

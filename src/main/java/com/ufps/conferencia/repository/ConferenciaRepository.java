@@ -5,10 +5,16 @@
 package com.ufps.conferencia.repository;
 
 import com.ufps.conferencia.entity.Conferencia;
+
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ConferenciaRepository extends JpaRepository<Conferencia,Long>{
+	
+	List<Conferencia> findByPlazoEnvioTrabajosBetween(LocalDate startDate, LocalDate endDate);
     
 }
