@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import com.ufps.conferencia.entity.Asistente;
 import com.ufps.conferencia.entity.Conferencia;
 
 public interface ConferenciaService {
@@ -18,5 +19,7 @@ public interface ConferenciaService {
 	public List<Conferencia> listaDeConferencias();
 
 	public List<Conferencia> conferenciasDentroDePlazoDeEntrega(LocalDate fechaInicial, LocalDate fechaFinal);
+	
+	public List<Asistente> asistentesDeLaConferencia(Conferencia unConferencia);
 
 }
