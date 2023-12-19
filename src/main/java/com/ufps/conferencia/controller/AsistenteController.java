@@ -5,6 +5,7 @@
 package com.ufps.conferencia.controller;
 
 import com.ufps.conferencia.entity.Asistente;
+import com.ufps.conferencia.entity.Conferencia;
 import com.ufps.conferencia.entity.Trabajo;
 import com.ufps.conferencia.repository.AsistenteRepository;
 import com.ufps.conferencia.service.AsistenteService;
@@ -26,11 +27,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/asistente")
 public class AsistenteController {
+
+	@Autowired
+	private RestTemplate restTemplate;
 
 	@Autowired
 	AsistenteService asistenteRepository;
@@ -146,10 +151,10 @@ public class AsistenteController {
 		}
 	}
 
-	/*
-	 * @GetMapping("cliente/{id}") public Long edadCuentaDelCliente(@PathVariable
-	 * Integer idAsistente) { Optional<Asistente> elCliente =
-	 * this.clienteServicio.buscar(idAsistente); long diasDeCuenta =
-	 * this.clienteServicio.diasDeRegistro(elCliente.get()); return diasDeCuenta; }
-	 */
+	public Conferencia obtenerConferencia(Long conferenciaId) {
+		String url = "http://conferencia-service/api/conferencias/" + conferenciaId;
+		return restTemplate.getForObject(url, Conferencia.class);
+
+	}
+
 }
