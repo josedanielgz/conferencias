@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.ufps.conferencia.entity.Asistente;
 import com.ufps.conferencia.entity.Conferencia;
 import com.ufps.conferencia.repository.ConferenciaRepository;
 import com.ufps.conferencia.service.ConferenciaService;
@@ -47,6 +48,12 @@ public class ConferenciaServiceImpl implements ConferenciaService {
 	@Override
 	public List<Conferencia> conferenciasDentroDePlazoDeEntrega(LocalDate fechaInicial, LocalDate fechaFinal) {
 		return this.repositorio.findByPlazoEnvioTrabajosBetween(fechaInicial, fechaFinal);
+	}
+
+	@Override
+	public List<Asistente> asistentesDeLaConferencia(Conferencia unConferencia) {
+		// TODO Auto-generated method stub
+		return unConferencia.getAsistentes();
 	}
 
 
