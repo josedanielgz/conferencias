@@ -53,36 +53,10 @@ public class AsistenteController {
 
 	}
 
-	@PutMapping("/{id}")
-	public Asistente putClientebyId(@PathVariable Long id, @RequestBody Asistente asistente) {
+	@PutMapping("/{idAsistente}")
+	public Asistente putClientebyId(@PathVariable Long idAsistente, @RequestBody Asistente asistente) {
 
-		Optional<Asistente> asistenteCurrent = this.asistenteRepository.buscar(id);
-
-		if (asistenteCurrent.isPresent()) {
-
-			Asistente asistenteReturn = asistenteCurrent.get();
-
-			asistenteReturn.setNombre(asistente.getNombre());
-			asistenteReturn.setApellido(asistente.getApellido());
-			asistenteReturn.setInstitucion(asistente.getInstitucion());
-			asistenteReturn.setEmail(asistente.getEmail());
-			asistenteReturn.setCiudad(asistente.getCiudad());
-			asistenteReturn.setPais(asistente.getPais());
-			asistenteReturn.setPassword(asistente.getPassword());
-
-			asistenteRepository.guardar(asistenteReturn);
-
-			return asistenteReturn;
-		}
-
-		return null;
-
-	}
-
-	@PutMapping("/{id}")
-	public Asistente registrarseEnConvocatoria(@PathVariable Long id, @RequestBody Asistente asistente) {
-
-		Optional<Asistente> asistenteCurrent = this.asistenteRepository.buscar(id);
+		Optional<Asistente> asistenteCurrent = this.asistenteRepository.buscar(idAsistente);
 
 		if (asistenteCurrent.isPresent()) {
 
@@ -105,16 +79,42 @@ public class AsistenteController {
 
 	}
 
-	@DeleteMapping("/{id}")
-	public Asistente deleteNewsbyId(@PathVariable Long id) {
+	@PutMapping("/registro/{idAsistente}")
+	public Asistente registrarseEnConvocatoria(@PathVariable Long idAsistente, @RequestBody Asistente asistente) {
 
-		Optional<Asistente> asistente = asistenteRepository.buscar(id);
+		Optional<Asistente> asistenteCurrent = this.asistenteRepository.buscar(idAsistente);
+
+		if (asistenteCurrent.isPresent()) {
+
+			Asistente asistenteReturn = asistenteCurrent.get();
+
+			asistenteReturn.setNombre(asistente.getNombre());
+			asistenteReturn.setApellido(asistente.getApellido());
+			asistenteReturn.setInstitucion(asistente.getInstitucion());
+			asistenteReturn.setEmail(asistente.getEmail());
+			asistenteReturn.setCiudad(asistente.getCiudad());
+			asistenteReturn.setPais(asistente.getPais());
+			asistenteReturn.setPassword(asistente.getPassword());
+
+			asistenteRepository.guardar(asistenteReturn);
+
+			return asistenteReturn;
+		}
+
+		return null;
+
+	}
+
+	@DeleteMapping("/{idAsistente}")
+	public Asistente deleteNewsbyId(@PathVariable Long idAsistente) {
+
+		Optional<Asistente> asistente = asistenteRepository.buscar(idAsistente);
 
 		if (asistente.isPresent()) {
 
 			Asistente asistenteReturn = asistente.get();
 
-			asistenteRepository.eliminar(id);
+			asistenteRepository.eliminar(idAsistente);
 
 			return asistenteReturn;
 		}
@@ -123,10 +123,10 @@ public class AsistenteController {
 
 	}
 
-	@GetMapping("/fecha/{id}")
-	public String daysSinceRegistered(@PathVariable Long id) {
+	@GetMapping("/fecha/{idAsistente}")
+	public String daysSinceRegistered(@PathVariable Long idAsistente) {
 
-		Optional<Asistente> asistente = asistenteRepository.buscar(id);
+		Optional<Asistente> asistente = asistenteRepository.buscar(idAsistente);
 		if (asistente.isPresent()) {
 			Long dias = this.asistenteRepository.diasDeRegistro(asistente.get());
 			return "";
@@ -134,7 +134,7 @@ public class AsistenteController {
 		return null;
 	}
 
-	@PutMapping("/trabajo/{id}")
+	@PutMapping("/trabajo/{conferenciaId}")
 	public Trabajo registrarTrabajoConvocatoria(@RequestParam Long conferenciaId, @RequestBody Asistente asistente,
 			@RequestParam MultipartFile file) {
 		try {
@@ -148,8 +148,8 @@ public class AsistenteController {
 
 	/*
 	 * @GetMapping("cliente/{id}") public Long edadCuentaDelCliente(@PathVariable
-	 * Integer id) { Optional<Asistente> elCliente =
-	 * this.clienteServicio.buscar(id); long diasDeCuenta =
+	 * Integer idAsistente) { Optional<Asistente> elCliente =
+	 * this.clienteServicio.buscar(idAsistente); long diasDeCuenta =
 	 * this.clienteServicio.diasDeRegistro(elCliente.get()); return diasDeCuenta; }
 	 */
 }
