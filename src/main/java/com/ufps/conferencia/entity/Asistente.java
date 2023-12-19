@@ -26,9 +26,9 @@ public class Asistente extends Usuario {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Asistente(Long id, String nombre, String apellido, String email, String password, Rol roles,
+	public Asistente(Long id, String nombre, String apellido, String email, String password, 
 			LocalDate fechaInscripcion) {
-		super(id, nombre, apellido, email, password, roles, fechaInscripcion);
+		super(id, nombre, apellido, email, password, fechaInscripcion);
 		// TODO Auto-generated constructor stub
 	}
 

@@ -5,12 +5,17 @@
 package com.ufps.conferencia.controller;
 
 import com.ufps.conferencia.entity.Asistente;
+import com.ufps.conferencia.entity.Trabajo;
 import com.ufps.conferencia.repository.AsistenteRepository;
-import com.ufps.conferencia.repository.ChairRepository;
 import com.ufps.conferencia.service.AsistenteService;
+import com.ufps.conferencia.service.TrabajoService;
 
+import java.io.IOException;
+import java.sql.Blob;
 import java.util.List;
 import java.util.Optional;
+
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,75 +24,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/asistente")
 public class AsistenteController {
 
-//    @Autowired
-//    AsistenteRepository asistenteRepository;
-//    
-//    public List<Asistente> getAsistenteAll() {
-//
-//        return asistenteRepository.findAll();
-//    }
-//
-//    @PostMapping
-//    public Asistente postAsistente(@RequestBody Asistente asistente) {
-//
-//        asistenteRepository.save(asistente);
-//
-//        return asistente;
-//
-//    }
-//
-//    @PutMapping("/{id}")
-//    public Asistente putAsistentebyId(@PathVariable Long id, @RequestBody Asistente asistente) {
-//
-//        Optional<Asistente> asistenteCurrent = asistenteRepository.findById(id);
-//
-//        if (asistenteCurrent.isPresent()) {
-//
-//            Asistente asistenteReturn = asistenteCurrent.get();
-//
-//            asistenteReturn.setNombre(asistente.getNombre());
-//            asistenteReturn.setApellido(asistente.getApellido());
-//            asistenteReturn.setEmail(asistente.getEmail());
-//            asistenteReturn.setEmail(asistente.getPassword());
-//
-//            asistenteRepository.save(asistenteReturn);
-//
-//            return asistenteReturn;
-//        }
-//
-//        return null;
-//
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public Asistente deleteAsistentebyId(@PathVariable Long id) {
-//
-//        Optional<Asistente> asistente = asistenteRepository.findById(id);
-//
-//        if (asistente.isPresent()) {
-//
-//            Asistente asistenteReturn = asistente.get();
-//
-//            asistenteRepository.deleteById(id);
-//
-//            return asistenteReturn;
-//        }
-//
-//        return null;
-//
-//    }
-
-//  @Autowired
-//  AsistenteRepository asistenteRepository;
-
 	@Autowired
 	AsistenteService asistenteRepository;
+
+	@Autowired
+	TrabajoService trabajoService;
 
 	@GetMapping("/usuarios")
 	public List<Asistente> getClienteAll() {
@@ -115,7 +64,7 @@ public class AsistenteController {
 
 			asistenteReturn.setNombre(asistente.getNombre());
 			asistenteReturn.setApellido(asistente.getApellido());
-			asistenteReturn.setInstitucion(asistente.getInstitucion())
+			asistenteReturn.setInstitucion(asistente.getInstitucion());
 			asistenteReturn.setEmail(asistente.getEmail());
 			asistenteReturn.setCiudad(asistente.getCiudad());
 			asistenteReturn.setPais(asistente.getPais());
@@ -141,7 +90,7 @@ public class AsistenteController {
 
 			asistenteReturn.setNombre(asistente.getNombre());
 			asistenteReturn.setApellido(asistente.getApellido());
-			asistenteReturn.setInstitucion(asistente.getInstitucion())
+			asistenteReturn.setInstitucion(asistente.getInstitucion());
 			asistenteReturn.setEmail(asistente.getEmail());
 			asistenteReturn.setCiudad(asistente.getCiudad());
 			asistenteReturn.setPais(asistente.getPais());
@@ -155,7 +104,7 @@ public class AsistenteController {
 		return null;
 
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public Asistente deleteNewsbyId(@PathVariable Long id) {
 
@@ -178,12 +127,23 @@ public class AsistenteController {
 	public String daysSinceRegistered(@PathVariable Long id) {
 
 		Optional<Asistente> asistente = asistenteRepository.buscar(id);
-
 		if (asistente.isPresent()) {
 			Long dias = this.asistenteRepository.diasDeRegistro(asistente.get());
 			return "";
 		}
 		return null;
+	}
+
+	@PutMapping("/trabajo/{id}")
+	public Trabajo registrarTrabajoConvocatoria(@RequestParam Long conferenciaId, @RequestBody Asistente asistente,
+			@RequestParam MultipartFile file) {
+		try {
+			return this.trabajoService.subirTrabajo(conferenciaId, conferenciaId, file);
+		} catch (HibernateException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/*

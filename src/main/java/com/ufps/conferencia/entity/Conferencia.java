@@ -31,10 +31,6 @@ public class Conferencia {
 	private LocalDate plazoEnvioTrabajos;
 	private LocalDate fechaCierre;
 
-	@OneToOne(mappedBy = "conferencia")
-	@JsonManagedReference
-	private Chair chair;
-
 	@ManyToMany
 	@JoinTable(name = "usuario_conferencia", joinColumns = @JoinColumn(name = "conferencia_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
 	private List<Asistente> asistentes;
@@ -44,14 +40,13 @@ public class Conferencia {
 	}
 
 	public Conferencia(Long id, String nombre, LocalDate fechaInicio, LocalDate plazoEnvioTrabajos,
-			LocalDate fechaCierre, Chair chair, List<Asistente> asistentes) {
+			LocalDate fechaCierre, List<Asistente> asistentes) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.fechaInicio = fechaInicio;
 		this.plazoEnvioTrabajos = plazoEnvioTrabajos;
 		this.fechaCierre = fechaCierre;
-		this.chair = chair;
 		this.asistentes = asistentes;
 	}
 
@@ -93,14 +88,6 @@ public class Conferencia {
 
 	public void setFechaCierre(LocalDate fechaCierre) {
 		this.fechaCierre = fechaCierre;
-	}
-
-	public Chair getChair() {
-		return chair;
-	}
-
-	public void setChair(Chair chair) {
-		this.chair = chair;
 	}
 
 	public List<Asistente> getAsistentes() {

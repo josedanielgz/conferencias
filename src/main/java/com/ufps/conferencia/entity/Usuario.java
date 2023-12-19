@@ -40,17 +40,12 @@ public class Usuario{
     @Column(name = "email")
     private String email;
     @Column(name = "password")
-    private String password;
-
-    @ManyToOne
-    @JoinColumn(name = "rol_id")
-    private Rol roles;
-    
+    private String password;    
     @Column(name = "fecha_inscripcion")
     @Temporal(TemporalType.DATE)
     private LocalDate fechaInscripcion;
     
-	public Usuario(Long id, String nombre, String apellido, String email, String password, Rol roles,
+	public Usuario(Long id, String nombre, String apellido, String email, String password,
 			LocalDate fechaInscripcion) {
 		super();
 		this.id = id;
@@ -58,7 +53,6 @@ public class Usuario{
 		this.apellido = apellido;
 		this.email = email;
 		this.password = password;
-		this.roles = roles;
 		this.fechaInscripcion = fechaInscripcion;
 	}
 
@@ -104,14 +98,6 @@ public class Usuario{
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Rol getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Rol roles) {
-		this.roles = roles;
 	}
 
 	public LocalDate getFechaInscripcion() {
